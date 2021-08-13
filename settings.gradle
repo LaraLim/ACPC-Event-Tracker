@@ -1,0 +1,2 @@
+rootProject.name = "ACPC Event Tracker"
+include ':app'
