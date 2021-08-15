@@ -1,8 +1,5 @@
 <resources>
     <string name="app_name">ACPC Event Tracker</string>
-    <string name="tab_text_1">Tab 1</string>
-    <string name="tab_text_2">Tab 2</string>
-
     <string name="tab_text_garden">Garden Event</string>
     <string name="tab_text_fishing">Fishing Tourney</string>
     <string name="tab_text_gyroidite">Gyroidite Hunt</string>
