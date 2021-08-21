@@ -3,4 +3,7 @@
     <string name="tab_text_garden">Garden Event</string>
     <string name="tab_text_fishing">Fishing Tourney</string>
     <string name="tab_text_gyroidite">Gyroidite Hunt</string>
+    <string name="channel_id">notif</string>
+    <string name="channel_name">NotificationChannel</string>
+    <string name="channel_description">The single notification channel for the app</string>
 </resources>
