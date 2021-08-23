@@ -55,28 +55,12 @@ public class MainActivity extends AppCompatActivity {
             notificationManager.createNotificationChannel(channel);
         }
 
-        // Create an explicit intent for an Activity in your app
-        Intent intent = new Intent(this, SettingsPage.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
-
-
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, getString(R.string.channel_id))
-                .setSmallIcon(R.drawable.notification_icon)
-                .setContentTitle("testTitle")
-                .setContentText("testContent :)")
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                .setContentIntent(pendingIntent)
-                .setAutoCancel(true);
-
+        // using the floating button to test sending notifications, will eventually be for accessing the notification settings page
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NotificationManagerCompat notificationManager = NotificationManagerCompat.from(MainActivity.this);
-                notificationManager.notify(0, builder.build());
-                //startActivity(new Intent(MainActivity.this, SettingsPage.class));
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
+                NotificationSender notificationSender = new NotificationSender(MainActivity.this, SettingsPage.class);
+                notificationSender.sendTestNotification();
             }
         });
     }
