@@ -15,6 +15,9 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
+import androidx.work.WorkRequest;
 
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,6 +25,8 @@ import android.view.View;
 
 import com.example.acpceventtracker.ui.main.SectionsPagerAdapter;
 import com.example.acpceventtracker.databinding.ActivityMainBinding;
+
+import java.time.Duration;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -33,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        Duration notificationSendingInterval = Duration.ofMinutes(15);
 
         SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
         ViewPager viewPager = binding.viewPager;
@@ -59,9 +66,17 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NotificationSender notificationSender = new NotificationSender(MainActivity.this, SettingsPage.class);
+                NotificationSender notificationSender = new NotificationSender(MainActivity.this);
                 notificationSender.sendTestNotification();
             }
         });
+
+        // testing WorkRequests and WorkManager with notifications
+
+        // create the PeriodicWorkRequest
+        WorkRequest notificationWorkRequest = new PeriodicWorkRequest.Builder(NotificationWorker.class, notificationSendingInterval).build();
+
+        // submit the request to the system
+        WorkManager.getInstance(getApplicationContext()).enqueue(notificationWorkRequest);
     }
 }
