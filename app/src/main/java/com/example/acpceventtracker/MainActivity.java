@@ -1,5 +1,10 @@
 package com.example.acpceventtracker;
 
+/**
+ * References:
+ * https://developer.android.com/reference/androidx/work/PeriodicWorkRequest.Builder
+ * */
+
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -39,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        Duration notificationSendingInterval = Duration.ofMinutes(15);
+        Duration notificationInterval = Duration.ofMinutes(15);
 
         SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
         ViewPager viewPager = binding.viewPager;
@@ -47,6 +52,8 @@ public class MainActivity extends AppCompatActivity {
         TabLayout tabs = binding.tabs;
         tabs.setupWithViewPager(viewPager);
         FloatingActionButton fab = binding.fab;
+
+        // below this is notification setup stuff:
 
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
@@ -62,19 +69,20 @@ public class MainActivity extends AppCompatActivity {
             notificationManager.createNotificationChannel(channel);
         }
 
-        // using the floating button to test sending notifications, will eventually be for accessing the notification settings page
+        // using the floating button to test sending notifications and accessing the notification settings page
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 NotificationSender notificationSender = new NotificationSender(MainActivity.this);
-                notificationSender.sendTestNotification();
+                notificationSender.sendGardenNotification();
+                startActivity(new Intent(MainActivity.this, SettingsPage.class)); // open the notification settings page
             }
         });
 
         // testing WorkRequests and WorkManager with notifications
 
         // create the PeriodicWorkRequest
-        WorkRequest notificationWorkRequest = new PeriodicWorkRequest.Builder(NotificationWorker.class, notificationSendingInterval).build();
+        WorkRequest notificationWorkRequest = new PeriodicWorkRequest.Builder(NotificationWorker.class, notificationInterval).build();
 
         // submit the request to the system
         WorkManager.getInstance(getApplicationContext()).enqueue(notificationWorkRequest);

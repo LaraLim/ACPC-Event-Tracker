@@ -1,5 +1,10 @@
 package com.example.acpceventtracker;
 
+/**
+ * References:
+ * https://developer.android.com/topic/libraries/architecture/workmanager/basics#java
+ * */
+
 import android.content.Context;
 
 import androidx.annotation.NonNull;
@@ -15,7 +20,6 @@ public class NotificationWorker extends Worker {
 
     @Override
     public Result doWork() {
-        // Do the work here--in this case, upload the images.
         NotificationSender notificationSender = new NotificationSender(getApplicationContext());
         notificationSender.sendTestNotification();
 
