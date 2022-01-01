@@ -1,9 +1,16 @@
 package com.example.acpceventtracker;
 
+/**
+ * References:
+ * https://developer.android.com/guide/topics/ui/controls/togglebutton
+ * https://developer.android.com/reference/android/widget/Switch
+ * */
+
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -29,6 +36,48 @@ public class SettingsPage extends AppCompatActivity {
         notifSwitchFishing = findViewById(R.id.notifSwitchFishing);
         notifSwitchGyroidite = findViewById(R.id.notifSwitchGyroidite);
 
-        //notification toggle
+        //notification toggle and settings
+
+        // garden notification switch
+        notifSwitchGarden.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    notifSwitchFishing.setChecked(false);
+                    notifSwitchGyroidite.setChecked(false);
+
+
+                } else {
+
+                }
+            }
+        });
+
+        // fishing notification switch
+        notifSwitchFishing.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    notifSwitchGarden.setChecked(false);
+                    notifSwitchGyroidite.setChecked(false);
+
+
+                } else {
+
+                }
+            }
+        });
+
+        // gyroidite notification switch
+        notifSwitchGyroidite.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    notifSwitchGarden.setChecked(false);
+                    notifSwitchFishing.setChecked(false);
+
+
+                } else {
+
+                }
+            }
+        });
     }
 }
