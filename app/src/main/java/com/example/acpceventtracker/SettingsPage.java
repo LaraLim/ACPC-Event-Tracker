@@ -4,6 +4,7 @@ package com.example.acpceventtracker;
  * References:
  * https://developer.android.com/guide/topics/ui/controls/togglebutton
  * https://developer.android.com/reference/android/widget/Switch
+ * https://codinginfinite.com/setting-input-output-data-with-workmanager/
  * */
 
 import android.app.PendingIntent;
@@ -17,6 +18,12 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
+import androidx.work.Data;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
+import androidx.work.WorkRequest;
+
+import java.time.Duration;
 
 public class SettingsPage extends AppCompatActivity {
 
@@ -36,7 +43,7 @@ public class SettingsPage extends AppCompatActivity {
         notifSwitchFishing = findViewById(R.id.notifSwitchFishing);
         notifSwitchGyroidite = findViewById(R.id.notifSwitchGyroidite);
 
-        //notification toggle and settings
+        NotificationSender notificationSender = new NotificationSender(SettingsPage.this);
 
         // garden notification switch
         notifSwitchGarden.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -45,9 +52,18 @@ public class SettingsPage extends AppCompatActivity {
                     notifSwitchFishing.setChecked(false);
                     notifSwitchGyroidite.setChecked(false);
 
+                    Duration notificationInterval = Duration.ofMinutes(1);
+                    Data notifTypeData = new Data.Builder().putString("notifType", "garden").build(); // create Data object specifying the notification type
 
-                } else {
+                    // create the PeriodicWorkRequest
+                    WorkRequest notificationWorkRequest = new PeriodicWorkRequest.Builder(NotificationWorker.class, notificationInterval)
+                            .setInputData(notifTypeData) // notification type
+                            .build();
 
+                    // submit the request to the system
+                    WorkManager.getInstance(getApplicationContext()).enqueue(notificationWorkRequest);
+
+                    notificationSender.sendGardenNotification(); // this is a test
                 }
             }
         });
@@ -60,8 +76,18 @@ public class SettingsPage extends AppCompatActivity {
                     notifSwitchGyroidite.setChecked(false);
 
 
-                } else {
+                    Duration notificationInterval = Duration.ofMinutes(1);
+                    Data notifTypeData = new Data.Builder().putString("notifType", "fishing").build(); // create Data object specifying the notification type
 
+                    // create the PeriodicWorkRequest
+                    WorkRequest notificationWorkRequest = new PeriodicWorkRequest.Builder(NotificationWorker.class, notificationInterval)
+                            .setInputData(notifTypeData) // notification type
+                            .build();
+
+                    // submit the request to the system
+                    WorkManager.getInstance(getApplicationContext()).enqueue(notificationWorkRequest);
+
+                    notificationSender.sendFishingNotification(); // this is a test
                 }
             }
         });
@@ -73,9 +99,18 @@ public class SettingsPage extends AppCompatActivity {
                     notifSwitchGarden.setChecked(false);
                     notifSwitchFishing.setChecked(false);
 
+                    Duration notificationInterval = Duration.ofMinutes(1);
+                    Data notifTypeData = new Data.Builder().putString("notifType", "gyroid").build(); // create Data object specifying the notification type
 
-                } else {
+                    // create the PeriodicWorkRequest
+                    WorkRequest notificationWorkRequest = new PeriodicWorkRequest.Builder(NotificationWorker.class, notificationInterval)
+                            .setInputData(notifTypeData) // notification type
+                            .build();
 
+                    // submit the request to the system
+                    WorkManager.getInstance(getApplicationContext()).enqueue(notificationWorkRequest);
+
+                    notificationSender.sendGyroidNotification(); // this is a test
                 }
             }
         });

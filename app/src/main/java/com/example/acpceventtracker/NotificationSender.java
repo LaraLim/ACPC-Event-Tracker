@@ -20,23 +20,6 @@ public class NotificationSender {
         this.context = context;
     }
 
-    public void sendTestNotification(){
-        Intent intent = new Intent(context, SettingsPage.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
-
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, context.getString(R.string.channel_id))
-                .setSmallIcon(R.drawable.notification_icon)
-                .setContentTitle("testTitle")
-                .setContentText("testContent :)")
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                .setContentIntent(pendingIntent)
-                .setAutoCancel(true);
-
-        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
-        notificationManager.notify(0, builder.build());
-    }
-
     public void sendGardenNotification(){
         Intent intent = new Intent(context, SettingsPage.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -57,7 +40,7 @@ public class NotificationSender {
     public void sendFishingNotification(){
         Intent intent = new Intent(context, SettingsPage.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 1, intent, 0);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, context.getString(R.string.channel_id))
                 .setSmallIcon(R.drawable.notification_icon)
@@ -74,7 +57,7 @@ public class NotificationSender {
     public void sendGyroidNotification(){
         Intent intent = new Intent(context, SettingsPage.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 2, intent, 0);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, context.getString(R.string.channel_id))
                 .setSmallIcon(R.drawable.notification_icon)

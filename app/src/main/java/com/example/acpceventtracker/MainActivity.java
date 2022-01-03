@@ -44,16 +44,12 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        Duration notificationInterval = Duration.ofMinutes(15);
-
         SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
         ViewPager viewPager = binding.viewPager;
         viewPager.setAdapter(sectionsPagerAdapter);
         TabLayout tabs = binding.tabs;
         tabs.setupWithViewPager(viewPager);
         FloatingActionButton fab = binding.fab;
-
-        // below this is notification setup stuff:
 
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
@@ -69,22 +65,12 @@ public class MainActivity extends AppCompatActivity {
             notificationManager.createNotificationChannel(channel);
         }
 
-        // using the floating button to test sending notifications and accessing the notification settings page
+        // floating button to access the notification settings page
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NotificationSender notificationSender = new NotificationSender(MainActivity.this);
-                notificationSender.sendGardenNotification();
                 startActivity(new Intent(MainActivity.this, SettingsPage.class)); // open the notification settings page
             }
         });
-
-        // testing WorkRequests and WorkManager with notifications
-
-        // create the PeriodicWorkRequest
-        WorkRequest notificationWorkRequest = new PeriodicWorkRequest.Builder(NotificationWorker.class, notificationInterval).build();
-
-        // submit the request to the system
-        WorkManager.getInstance(getApplicationContext()).enqueue(notificationWorkRequest);
     }
 }
