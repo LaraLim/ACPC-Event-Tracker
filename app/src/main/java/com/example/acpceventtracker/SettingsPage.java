@@ -52,18 +52,21 @@ public class SettingsPage extends AppCompatActivity {
                     notifSwitchFishing.setChecked(false);
                     notifSwitchGyroidite.setChecked(false);
 
-                    Duration notificationInterval = Duration.ofMinutes(1);
+                    Duration notificationInterval = Duration.ofMinutes(90);
                     Data notifTypeData = new Data.Builder().putString("notifType", "garden").build(); // create Data object specifying the notification type
+
+                    // clear workManager
+                    WorkManager.getInstance(getApplicationContext()).cancelAllWorkByTag("fishingNotif");
+                    WorkManager.getInstance(getApplicationContext()).cancelAllWorkByTag("gyroidNotif");
 
                     // create the PeriodicWorkRequest
                     WorkRequest notificationWorkRequest = new PeriodicWorkRequest.Builder(NotificationWorker.class, notificationInterval)
                             .setInputData(notifTypeData) // notification type
+                            .addTag("gardenNotif")
                             .build();
+                    WorkManager.getInstance(getApplicationContext()).enqueue(notificationWorkRequest); // submit request to the system
 
-                    // submit the request to the system
-                    WorkManager.getInstance(getApplicationContext()).enqueue(notificationWorkRequest);
-
-                    notificationSender.sendGardenNotification(); // this is a test
+//                    notificationSender.sendGardenNotification(); // this is a test
                 }
             }
         });
@@ -75,19 +78,21 @@ public class SettingsPage extends AppCompatActivity {
                     notifSwitchGarden.setChecked(false);
                     notifSwitchGyroidite.setChecked(false);
 
-
-                    Duration notificationInterval = Duration.ofMinutes(1);
+                    Duration notificationInterval = Duration.ofHours(3);
                     Data notifTypeData = new Data.Builder().putString("notifType", "fishing").build(); // create Data object specifying the notification type
+
+                    // clear workManager
+                    WorkManager.getInstance(getApplicationContext()).cancelAllWorkByTag("gardenNotif");
+                    WorkManager.getInstance(getApplicationContext()).cancelAllWorkByTag("gyroidNotif");
 
                     // create the PeriodicWorkRequest
                     WorkRequest notificationWorkRequest = new PeriodicWorkRequest.Builder(NotificationWorker.class, notificationInterval)
                             .setInputData(notifTypeData) // notification type
+                            .addTag("fishingNotif")
                             .build();
+                    WorkManager.getInstance(getApplicationContext()).enqueue(notificationWorkRequest); // submit request to the system
 
-                    // submit the request to the system
-                    WorkManager.getInstance(getApplicationContext()).enqueue(notificationWorkRequest);
-
-                    notificationSender.sendFishingNotification(); // this is a test
+//                    notificationSender.sendFishingNotification(); // this is a test
                 }
             }
         });
@@ -99,18 +104,21 @@ public class SettingsPage extends AppCompatActivity {
                     notifSwitchGarden.setChecked(false);
                     notifSwitchFishing.setChecked(false);
 
-                    Duration notificationInterval = Duration.ofMinutes(1);
+                    Duration notificationInterval = Duration.ofHours(1);
                     Data notifTypeData = new Data.Builder().putString("notifType", "gyroid").build(); // create Data object specifying the notification type
+
+                    // clear workManager
+                    WorkManager.getInstance(getApplicationContext()).cancelAllWorkByTag("gardenNotif");
+                    WorkManager.getInstance(getApplicationContext()).cancelAllWorkByTag("fishingNotif");
 
                     // create the PeriodicWorkRequest
                     WorkRequest notificationWorkRequest = new PeriodicWorkRequest.Builder(NotificationWorker.class, notificationInterval)
-                            .setInputData(notifTypeData) // notification type
+                            .setInputData(notifTypeData) // notification
+                            .addTag("gyroidNotif")
                             .build();
+                    WorkManager.getInstance(getApplicationContext()).enqueue(notificationWorkRequest); // submit request to the system
 
-                    // submit the request to the system
-                    WorkManager.getInstance(getApplicationContext()).enqueue(notificationWorkRequest);
-
-                    notificationSender.sendGyroidNotification(); // this is a test
+//                    notificationSender.sendGyroidNotification(); // this is a test
                 }
             }
         });

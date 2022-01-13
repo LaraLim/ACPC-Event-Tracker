@@ -25,23 +25,16 @@ public class NotificationWorker extends Worker {
     @Override
     public Result doWork() {
         NotificationSender notificationSender = new NotificationSender(getApplicationContext());
-        if(notifType == null){
-            System.out.println("<><><><><><><><><><><><><><><><><>notifType is null<><><><><><><><><><><><><><><><><>");
-            notifType = this.getInputData().getString("notifType"); // the type of notification passed as input data
-            System.out.println("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<READ INPUT DATA>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-        }
+        notifType = this.getInputData().getString("notifType"); // the type of notification passed as input data
 
         if(notifType.equals("garden")) {
             notificationSender.sendGardenNotification();
-            System.out.println(">>>>>>>>>>>>>>>>>DATA RECEIVED: GARDEN");
         }
         else if(notifType.equals("fishing")) {
             notificationSender.sendFishingNotification();
-            System.out.println(">>>>>>>>>>>>>>>>>DATA RECEIVED: FISHING");
         }
         else if(notifType.equals("gyroid")) {
             notificationSender.sendGyroidNotification();
-            System.out.println(">>>>>>>>>>>>>>>>>DATA RECEIVED: GYROID");
         }
 
         // Indicate whether the work finished successfully with the Result
