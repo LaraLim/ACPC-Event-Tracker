@@ -11,6 +11,8 @@ import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -29,6 +31,7 @@ public class SettingsPage extends AppCompatActivity {
 
     TextView notifPageTitle, notifSubtitle;
     Switch notifSwitchGarden, notifSwitchFishing, notifSwitchGyroidite;
+    Button cancelNotifButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +45,8 @@ public class SettingsPage extends AppCompatActivity {
         notifSwitchGarden = findViewById(R.id.notifSwitchGarden);
         notifSwitchFishing = findViewById(R.id.notifSwitchFishing);
         notifSwitchGyroidite = findViewById(R.id.notifSwitchGyroidite);
+
+        cancelNotifButton = findViewById(R.id.cancelNotifButton);
 
         NotificationSender notificationSender = new NotificationSender(SettingsPage.this);
 
@@ -120,6 +125,16 @@ public class SettingsPage extends AppCompatActivity {
 
 //                    notificationSender.sendGyroidNotification(); // this is a test
                 }
+            }
+        });
+
+        cancelNotifButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // clear workManager
+                WorkManager.getInstance(getApplicationContext()).cancelAllWorkByTag("gardenNotif");
+                WorkManager.getInstance(getApplicationContext()).cancelAllWorkByTag("fishingNotif");
+                WorkManager.getInstance(getApplicationContext()).cancelAllWorkByTag("gyroidNotif");
             }
         });
     }

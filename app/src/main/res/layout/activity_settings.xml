@@ -67,6 +67,14 @@
                 android:thumbTint="@color/teal_700"
                 android:trackTint="@color/teal_200" />
 
+            <Button
+                android:id="@+id/cancelNotifButton"
+                android:layout_width="244dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="65dp"
+                android:layout_marginTop="50dp"
+                android:text="cancel notifications" />
+
         </LinearLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
